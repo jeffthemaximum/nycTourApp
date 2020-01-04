@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin",
+        "alwaysShowRuleFailuresAsWarnings": false,
+        "ignoreDefinitionFiles": true,
+        "suppressWhileTypeErrorsPresent": false
+      }
+    ]
+  },
+  "rules": {
+    "semicolon": [true, "never"]
+  }
+}
