@@ -3,11 +3,22 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
 import RegistrationComponent from '../../components/users/Registration'
+import users from '../../ducks/users'
 
-class Registration extends Component {
+const {
+  actions: { createUser }
+} = users
+
+type RegistrationProps = {
+  createUser: Function
+}
+
+class Registration extends Component<RegistrationProps, {}> {
   render () {
+    const { createUser } = this.props
+
     return (
-      <RegistrationComponent />
+      <RegistrationComponent createUser={createUser} />
     )
   }
 }
@@ -16,7 +27,7 @@ const mapStateToProps = state => {
   return {}
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = { createUser }
 
 const enhance = compose(
   connect(
