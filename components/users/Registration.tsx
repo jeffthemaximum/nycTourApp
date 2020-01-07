@@ -6,8 +6,21 @@ import constants from '../../constants'
 import FullWidthImage from '../structural/FullWidthImage'
 import TextInputField from '../forms/TextInputField'
 
+type ButtonsProps = {
+  handleSubmit: Function
+}
+
+type FormFieldsProps = {
+  email: String
+  password: String
+  setContainerState: Function
+}
+
 type RegistrationProps = {
-  createUser: Function
+  email: String
+  handleSubmit: Function
+  password: String
+  setContainerState: Function
 }
 
 const Header = () => (
@@ -16,11 +29,20 @@ const Header = () => (
   </View>
 )
 
-const Body = () => (
+const Body = ({
+  email,
+  handleSubmit,
+  password,
+  setContainerState
+}: RegistrationProps) => (
   <View style={styles.bodyContainer}>
     <BodyText />
-    <FormFields />
-    <Buttons />
+    <FormFields
+      email={email}
+      password={password}
+      setContainerState={setContainerState}
+    />
+    <Buttons handleSubmit={handleSubmit}/>
   </View>
 )
 
@@ -31,26 +53,57 @@ const BodyText = () => (
   </View>
 )
 
-const Buttons = () => (
+const Buttons = ({ handleSubmit }: ButtonsProps) => (
   <View style={styles.buttonContainer}>
     <Button
       buttonStyles={{
         marginBottom: 24
       }}
+      handlePress={handleSubmit}
       text={'Next'}
     />
     <Text style={styles.loginText}><Text>Returning user? </Text><Text style={styles.loginLinkText}>Login to your account.</Text></Text>
   </View>
 )
 
-const FormFields = () => (
-  <View>
-    <TextInputField label={'Email'} containerStyles={{marginBottom: 8}}/>
-    <TextInputField label={'Password'} />
-  </View>
-)
+const FormFields = ({
+  email,
+  password,
+  setContainerState
+}: FormFieldsProps) => {
+  const handleEmailChange = (text) => {
+    setContainerState({ email: text })
+  }
 
-const Registration = ({ createUser }: RegistrationProps) => {
+  const handlePasswordChange = (text) => {
+    setContainerState({ password: text })
+  }
+
+  return (
+    <View>
+      <TextInputField
+        autoCompleteType='email'
+        containerStyles={{marginBottom: 8}}
+        label={'Email'}
+        onChangeText={handleEmailChange}
+        value={email}
+      />
+      <TextInputField
+        label={'Password'}
+        onChangeText={handlePasswordChange}
+        secureTextEntry={true}
+        value={password}
+      />
+    </View>
+  )
+}
+
+const Registration = ({
+  email,
+  handleSubmit,
+  password,
+  setContainerState
+}: RegistrationProps) => {
   return (
     <KeyboardAvoidingView
       behavior='position'
@@ -58,7 +111,12 @@ const Registration = ({ createUser }: RegistrationProps) => {
       style={styles.container}
     >
       <Header />
-      <Body />
+      <Body
+        email={email}
+        handleSubmit={handleSubmit}
+        password={password}
+        setContainerState={setContainerState}
+      />
     </KeyboardAvoidingView>
   )
 }

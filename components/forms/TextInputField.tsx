@@ -3,12 +3,19 @@ import { StyleSheet, Text, TextInput, View } from 'react-native'
 
 import constants from '../../constants'
 
-const TextInputField = ({ label, containerStyles = {} }) => (
-  <View style={[styles.container, containerStyles]}>
-    {label && <Text style={styles.labelText}>{label}</Text>}
-    <TextInput style={styles.textInput} />
-  </View>
-)
+const TextInputField = (props) => {
+  const { containerStyles, label } = props
+
+  return (
+    <View style={[styles.container, containerStyles]}>
+      {label && <Text style={styles.labelText}>{label}</Text>}
+      <TextInput
+        style={styles.textInput}
+        {...props}
+      />
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {

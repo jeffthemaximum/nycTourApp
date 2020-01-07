@@ -16,6 +16,12 @@
   ```
   brew install yarn
   ```
+- Install tslint
+  - There may be a smarter way to do this, but
+  - Right now, we recommended installing this globally, with:
+  ```
+  npm install -g tslint
+  ```
 - Install dependencies
   - In root of project, run:
   ```
