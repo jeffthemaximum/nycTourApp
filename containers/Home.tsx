@@ -26,7 +26,7 @@ type HomeProps = {
 
 class Home extends Component<HomeProps, {}> {
   static navigationOptions = {
-    header: null
+    headerShown: false
   }
 
   componentDidMount () {

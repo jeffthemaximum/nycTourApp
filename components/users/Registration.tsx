@@ -83,12 +83,20 @@ const FormFields = ({
     <View>
       <TextInputField
         autoCompleteType='email'
-        containerStyles={{marginBottom: 8}}
+        containerStyles={{marginBottom: 16}}
+        imageStyles={{
+          width: 19
+        }}
+        imageUrl={'https://nyc-tour-app.s3.us-east-2.amazonaws.com/email-icon.png'}
         label={'Email'}
         onChangeText={handleEmailChange}
         value={email}
       />
       <TextInputField
+        imageStyles={{
+          width: 17
+        }}
+        imageUrl={'https://nyc-tour-app.s3.us-east-2.amazonaws.com/lock-icon.png'}
         label={'Password'}
         onChangeText={handlePasswordChange}
         secureTextEntry={true}
