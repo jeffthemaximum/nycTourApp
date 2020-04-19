@@ -82,6 +82,7 @@ const FormFields = ({
   return (
     <View>
       <TextInputField
+        autoCapitalize='none'
         autoCompleteType='email'
         containerStyles={{marginBottom: 16}}
         imageStyles={{
@@ -93,6 +94,7 @@ const FormFields = ({
         value={email}
       />
       <TextInputField
+        autoCapitalize='none'
         imageStyles={{
           width: 17
         }}
