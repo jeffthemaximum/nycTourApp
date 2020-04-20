@@ -8,17 +8,22 @@ import TextInputField from '../forms/TextInputField'
 
 type ButtonsProps = {
   handleSubmit: Function
+  loading: boolean
 }
 
 type FormFieldsProps = {
   email: String
+  errors: Object
+  loading: boolean
   password: String
   setContainerState: Function
 }
 
 type RegistrationProps = {
   email: String
+  errors: Object
   handleSubmit: Function
+  loading: boolean
   password: String
   setContainerState: Function
 }
@@ -31,7 +36,9 @@ const Header = () => (
 
 const Body = ({
   email,
+  errors,
   handleSubmit,
+  loading,
   password,
   setContainerState
 }: RegistrationProps) => (
@@ -39,10 +46,12 @@ const Body = ({
     <BodyText />
     <FormFields
       email={email}
+      errors={errors}
+      loading={loading}
       password={password}
       setContainerState={setContainerState}
     />
-    <Buttons handleSubmit={handleSubmit}/>
+    <Buttons handleSubmit={handleSubmit} loading={loading} />
   </View>
 )
 
@@ -53,13 +62,14 @@ const BodyText = () => (
   </View>
 )
 
-const Buttons = ({ handleSubmit }: ButtonsProps) => (
+const Buttons = ({ handleSubmit, loading }: ButtonsProps) => (
   <View style={styles.buttonContainer}>
     <Button
       buttonStyles={{
         marginBottom: 24
       }}
       handlePress={handleSubmit}
+      isLoading={loading}
       text={'Next'}
     />
     <Text style={styles.loginText}><Text>Returning user? </Text><Text style={styles.loginLinkText}>Login to your account.</Text></Text>
@@ -68,6 +78,8 @@ const Buttons = ({ handleSubmit }: ButtonsProps) => (
 
 const FormFields = ({
   email,
+  errors,
+  loading,
   password,
   setContainerState
 }: FormFieldsProps) => {
@@ -85,6 +97,8 @@ const FormFields = ({
         autoCapitalize='none'
         autoCompleteType='email'
         containerStyles={{marginBottom: 16}}
+        editable={!loading}
+        error={errors['email']}
         imageStyles={{
           width: 19
         }}
@@ -95,6 +109,8 @@ const FormFields = ({
       />
       <TextInputField
         autoCapitalize='none'
+        editable={!loading}
+        error={errors['password']}
         imageStyles={{
           width: 17
         }}
@@ -110,7 +126,9 @@ const FormFields = ({
 
 const Registration = ({
   email,
+  errors,
   handleSubmit,
+  loading,
   password,
   setContainerState
 }: RegistrationProps) => {
@@ -123,7 +141,9 @@ const Registration = ({
       <Header />
       <Body
         email={email}
+        errors={errors}
         handleSubmit={handleSubmit}
+        loading={loading}
         password={password}
         setContainerState={setContainerState}
       />

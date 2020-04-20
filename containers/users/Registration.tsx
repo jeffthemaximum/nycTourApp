@@ -7,11 +7,15 @@ import RegistrationComponent from '../../components/users/Registration'
 import users from '../../ducks/users'
 
 const {
-  actions: { createUser }
+  actions: { createUser },
+  selectors: { createError: errorSelector, createLoading: loadingSelector }
 } = users
+
 
 type RegistrationProps = {
   createUser: Function
+  error: Object,
+  loading: boolean
 }
 
 class Registration extends Component<RegistrationProps, {}> {
@@ -24,12 +28,38 @@ class Registration extends Component<RegistrationProps, {}> {
     }
   }
 
+  componentDidUpdate (prevProps) {
+    const newServerError = !prevProps.error && !!this.props.error
+    if (newServerError) {
+      this.handleServerError()
+    }
+  }
+
+  handleServerError = () => {
+    const { error } = this.props
+
+    const errors = {}
+    if (error.hasOwnProperty('email')) {
+      errors['email'] = `Email ${error['email'][0]}.`
+    }
+
+    if (error.hasOwnProperty('password')) {
+      errors['password'] = `Password ${error['password'][0]}.`
+    }
+
+    if (error.hasOwnProperty('default')) {
+      errors['email'] = error['default'][0]
+    }
+
+    if (Object.keys(errors).length > 0) {
+      this.setState({ errors })
+    }
+  }
+
   handleSubmit = () => {
     const { createUser } = this.props
 
     const errors = this.validateInputs()
-
-    console.log({ errors })
 
     this.setState({ errors }, () => {
       const { email, errors, password } = this.state
@@ -69,12 +99,15 @@ class Registration extends Component<RegistrationProps, {}> {
   }
 
   render () {
-    const { email, password } = this.state
+    const { email, errors, password } = this.state
+    const { loading } = this.props
 
     return (
       <RegistrationComponent
         email={email}
+        errors={errors}
         handleSubmit={this.handleSubmit}
+        loading={loading}
         password={password}
         setContainerState={this.setContainerState}
       />
@@ -83,7 +116,13 @@ class Registration extends Component<RegistrationProps, {}> {
 }
 
 const mapStateToProps = state => {
-  return {}
+  const error = errorSelector(state)
+  const loading = loadingSelector(state)
+
+  return {
+    error,
+    loading
+  }
 }
 
 const mapDispatchToProps = { createUser }

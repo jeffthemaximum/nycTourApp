@@ -10,22 +10,31 @@ import {
 import constants from '../../constants'
 
 const TextInputField = (props) => {
-  const { containerStyles, label, textInputStyles, imageStyles = {}, imageUrl } = props
+  const { containerStyles, error, label, imageStyles = {}, imageUrl } = props
+
+  const getSectionStyles = () => {
+    if (error) {
+      return [styles.sectionStyle, styles.sectionErrorStyle]
+    } else {
+      return styles.sectionStyle
+    }
+  }
 
   return (
     <View style={[styles.container, containerStyles]}>
       {label && <Text style={styles.labelText}>{label}</Text>}
-      <View style={styles.sectionStyle}>
+      <View style={getSectionStyles()}>
         <Image
           source={{ uri: imageUrl }}
           style={[styles.imageStyle, imageStyles]}
         />
         <TextInput
-          style={styles.textInputStyle}
+          style={[styles.textInputStyle]}
           {...props}
           underlineColorAndroid="transparent"
         />
       </View>
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   )
 }
@@ -37,12 +46,17 @@ const styles = StyleSheet.create({
     marginLeft: 32,
     marginRight: 32
   },
+  errorText: {
+    alignSelf: 'flex-start',
+    color: constants.BRAND_COLORS.red,
+    fontSize: 12
+  },
   imageStyle: {
     marginLeft: 8,
     marginRight: 16,
     height: 20,
     width: 20,
-    resizeMode : 'stretch',
+    resizeMode: 'stretch',
     alignItems: 'center'
   },
   labelText: {
@@ -51,6 +65,9 @@ const styles = StyleSheet.create({
     fontFamily: constants.FONTS.regular,
     fontSize: 14,
     marginBottom: 4
+  },
+  sectionErrorStyle: {
+    borderColor: constants.BRAND_COLORS.red
   },
   sectionStyle: {
     alignItems: 'center',
