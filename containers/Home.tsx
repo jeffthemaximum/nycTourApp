@@ -26,21 +26,16 @@ type HomeProps = {
 
 class Home extends Component<HomeProps, {}> {
   static navigationOptions = {
-    header: null
+    headerShown: false
   }
 
   componentDidMount () {
-    console.log('componentDidMount')
     this.handleFetchUser()
   }
 
   componentDidUpdate (prevProps) {
-    console.log('componentDidUpdate')
     const { isFocused } = this.props
     const didFocus = !prevProps.isFocused && isFocused
-
-    console.log({ didFocus })
-    console.log({ prev: prevProps.isFocused, isFocused })
 
     if (didFocus) {
       this.handleFetchUser()

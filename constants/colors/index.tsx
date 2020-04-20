@@ -3,6 +3,7 @@ const BRAND_COLORS = {
   darkGreen: '#265858',
   greenGreen: '#009374',
   lightGreen: '#05E9CB',
+  red: '#FF3300',
   white: '#F4F4F4'
 }
 
