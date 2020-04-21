@@ -21,6 +21,10 @@ function * createUser (action) {
 }
 
 function * fetchUser () {
+  // TODO remove
+  yield call(clientStorageService.clear)
+
+
   const jwt = yield call(clientStorageService.get, constants.JWT)
   const response = yield call(userApi.fetchUser, jwt)
   const { data: user, error } = response

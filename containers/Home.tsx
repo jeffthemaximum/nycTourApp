@@ -24,9 +24,21 @@ type HomeProps = {
   user: object
 }
 
-class Home extends Component<HomeProps, {}> {
+type HomeState = {
+  didFetch: Boolean
+}
+
+class Home extends Component<HomeProps, HomeState> {
   static navigationOptions = {
     headerShown: false
+  }
+
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      didFetch: false
+    }
   }
 
   componentDidMount () {
@@ -44,9 +56,11 @@ class Home extends Component<HomeProps, {}> {
 
   handleFetchUser = () => {
     const { fetchUser, user } = this.props
+    const { didFetch } = this.state
 
-    if (!user) {
+    if (!user && !didFetch) {
       fetchUser()
+      this.setState({ didFetch: true })
     }
   }
 

@@ -9,6 +9,7 @@ import createSagaMiddleware from 'redux-saga'
 import constants from './constants'
 import navigationService from './services/navigationService'
 import Home from './containers/Home'
+import Login from './containers/users/Login'
 import reducers from './ducks/reducers'
 import rootSaga from './ducks/sagas'
 import Splash from './containers/Splash'
@@ -29,6 +30,9 @@ sagaMiddleware.run(rootSaga)
 const MainNavigator = createStackNavigator({
   [constants.NAVIGATION_NAMES.home]: {
     screen: Home
+  },
+  [constants.NAVIGATION_NAMES.login]: {
+    screen: Login
   }
 })
 
@@ -44,7 +48,7 @@ export default class App extends Component<{}, {fontLoaded: boolean}> {
     await Font.loadAsync({
       [constants.FONTS.bold]: require('./assets/fonts/ProximaNova-Bold.ttf'),
       [constants.FONTS.regular]: require('./assets/fonts/ProximaNova-Regular.ttf'),
-      [constants.FONTS.semibold]: require('./assets/fonts/ProximaNova-Semibold.ttf'),
+      [constants.FONTS.semiBold]: require('./assets/fonts/ProximaNova-Semibold.ttf'),
     })
 
     this.setState({ fontLoaded: true })

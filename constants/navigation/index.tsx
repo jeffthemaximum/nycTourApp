@@ -1,5 +1,6 @@
 const NAVIGATION_NAMES = {
-  home: 'Home'
+  home: 'Home',
+  login: 'Login'
 }
 
 export default {

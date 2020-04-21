@@ -1,24 +1,10 @@
-import { compose } from 'redux'
-import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
+import { RegistrationProps } from './Registration'
 import constants from '../../constants'
-import RegistrationComponent from '../../components/users/Registration'
-import users from '../../ducks/users'
+import LoginComponent from '../../components/users/Login'
 
-const {
-  actions: { createUser },
-  selectors: { createError: errorSelector, createLoading: loadingSelector }
-} = users
-
-
-export type RegistrationProps = {
-  createUser: Function
-  error: Object,
-  loading: boolean
-}
-
-class Registration extends Component<RegistrationProps, {}> {
+class Login extends Component<RegistrationProps, {}> {
   state = {
     email: '',
     password: '',
@@ -26,6 +12,10 @@ class Registration extends Component<RegistrationProps, {}> {
       email: null,
       password: null
     }
+  }
+
+  static navigationOptions = {
+    headerShown: false
   }
 
   componentDidUpdate (prevProps) {
@@ -57,8 +47,6 @@ class Registration extends Component<RegistrationProps, {}> {
   }
 
   handleSubmit = () => {
-    const { createUser } = this.props
-
     const errors = this.validateInputs()
 
     this.setState({ errors }, () => {
@@ -70,8 +58,12 @@ class Registration extends Component<RegistrationProps, {}> {
         }
       }
 
-      createUser({ email, password })
+      console.log({ email, password })
     })
+  }
+
+  setContainerState = (data = {}) => {
+    this.setState(data)
   }
 
   validateInputs = () => {
@@ -94,16 +86,12 @@ class Registration extends Component<RegistrationProps, {}> {
     return errors
   }
 
-  setContainerState = (data = {}) => {
-    this.setState(data)
-  }
-
   render () {
     const { email, errors, password } = this.state
     const { loading } = this.props
 
     return (
-      <RegistrationComponent
+      <LoginComponent
         email={email}
         errors={errors}
         handleSubmit={this.handleSubmit}
@@ -115,23 +103,4 @@ class Registration extends Component<RegistrationProps, {}> {
   }
 }
 
-const mapStateToProps = state => {
-  const error = errorSelector(state)
-  const loading = loadingSelector(state)
-
-  return {
-    error,
-    loading
-  }
-}
-
-const mapDispatchToProps = { createUser }
-
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
-
-export default enhance(Registration)
+export default Login
