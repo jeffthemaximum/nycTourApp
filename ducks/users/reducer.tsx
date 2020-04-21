@@ -14,6 +14,12 @@ export default function users (state = {}, action) {
         error: false,
         loading: true
       }
+    case actionTypes.LOGIN:
+      return {
+        ...state,
+        loginError: false,
+        loginLoading: true
+      }
     case actionTypes.CREATE_ERROR:
       return {
         ...state,
@@ -28,14 +34,25 @@ export default function users (state = {}, action) {
         error: true,
         loading: false
       }
+    case actionTypes.LOGIN_ERROR:
+      return {
+        ...state,
+        loginError: action.error,
+        loginLoading: false,
+        loading: false,
+        user: null
+      }
     case actionTypes.CREATE_SUCCESS:
     case actionTypes.FETCH_SUCCESS:
+    case actionTypes.LOGIN_SUCCESS:
       return {
         ...state,
         createError: false,
         createLoading: false,
         error: false,
         loading: false,
+        loginError: false,
+        loginLoading: false,
         user: action.user
       }
     default:

@@ -4,9 +4,14 @@ import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import Button from '../forms/Button'
 import constants from '../../constants'
 import FullWidthImage from '../structural/FullWidthImage'
+import navigationService from '../../services/navigationService'
 import TextInputField from '../forms/TextInputField'
 
-type ButtonsProps = {
+type BodyTextProps = {
+  secondaryText: String
+}
+
+export type ButtonsProps = {
   handleSubmit: Function
   loading: boolean
 }
@@ -34,6 +39,12 @@ const Header = () => (
   </View>
 )
 
+export const BodyWrapper = ({ children }) => (
+  <View style={styles.bodyContainer}>
+    {children}
+  </View>
+)
+
 const Body = ({
   email,
   errors,
@@ -42,8 +53,8 @@ const Body = ({
   password,
   setContainerState
 }: RegistrationProps) => (
-  <View style={styles.bodyContainer}>
-    <BodyText />
+  <BodyWrapper>
+    <BodyText secondaryText='Register to get started.' />
     <FormFields
       email={email}
       errors={errors}
@@ -52,13 +63,13 @@ const Body = ({
       setContainerState={setContainerState}
     />
     <Buttons handleSubmit={handleSubmit} loading={loading} />
-  </View>
+  </BodyWrapper>
 )
 
-const BodyText = () => (
+export const BodyText = ({ secondaryText }: BodyTextProps) => (
   <View>
     <Text style={styles.headerOneText}>Real NYC Tours</Text>
-    <Text style={styles.subHeaderText}>Register to get started.</Text>
+    <Text style={styles.subHeaderText}>{secondaryText}</Text>
   </View>
 )
 
@@ -72,11 +83,19 @@ const Buttons = ({ handleSubmit, loading }: ButtonsProps) => (
       isLoading={loading}
       text={'Next'}
     />
-    <Text style={styles.loginText}><Text>Returning user? </Text><Text style={styles.loginLinkText}>Login to your account.</Text></Text>
+    <Text style={styles.loginText}>
+      <Text>Returning user? </Text>
+      <Text
+        onPress={() => navigationService.navigate(constants.NAVIGATION_NAMES.login, {})}
+        style={styles.loginLinkText}
+      >
+        Log in to your account.
+      </Text>
+    </Text>
   </View>
 )
 
-const FormFields = ({
+export const FormFields = ({
   email,
   errors,
   loading,
@@ -124,6 +143,19 @@ const FormFields = ({
   )
 }
 
+export const RegistrationWrapper = ({ children }) => {
+  return (
+    <KeyboardAvoidingView
+      behavior='position'
+      enabled
+      style={styles.container}
+    >
+      <Header />
+      {children}
+    </KeyboardAvoidingView>
+  )
+}
+
 const Registration = ({
   email,
   errors,
@@ -133,12 +165,7 @@ const Registration = ({
   setContainerState
 }: RegistrationProps) => {
   return (
-    <KeyboardAvoidingView
-      behavior='position'
-      enabled
-      style={styles.container}
-    >
-      <Header />
+    <RegistrationWrapper>
       <Body
         email={email}
         errors={errors}
@@ -147,11 +174,11 @@ const Registration = ({
         password={password}
         setContainerState={setContainerState}
       />
-    </KeyboardAvoidingView>
+    </RegistrationWrapper>
   )
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   buttonContainer: {
     marginLeft: 32,
     marginRight: 32

@@ -13,3 +13,11 @@ export function fetchUser () {
     type: actionTypes.FETCH
   }
 }
+
+export function login ({ email, password }) {
+  return {
+    type: actionTypes.LOGIN,
+    email,
+    password
+  }
+}
