@@ -56,7 +56,7 @@ const Login = ({
       />
       <Buttons
         handleSubmit={handleSubmit}
-        loading={false}
+        loading={loading}
       />
     </BodyWrapper>
   </RegistrationWrapper>

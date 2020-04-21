@@ -37,3 +37,20 @@ export async function fetchUser (jwt) {
     return { error: errors, status: lodashGet(e, 'response.status') }
   }
 }
+
+export async function loginUser (email, password) {
+  const requestConfig: AxiosRequestConfig = {
+    data: { email, password },
+    headers: generateHeaders({}),
+    method: 'post',
+    url: `${constants.API_HOST}/api/v1/login`
+  }
+
+  try {
+    const response = await axios.request(requestConfig)
+    return response
+  } catch (e) {
+    const errors = handleApiError(e)
+    return { error: errors, status: lodashGet(e, 'response.status') }
+  }
+}

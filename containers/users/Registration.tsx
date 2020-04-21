@@ -12,7 +12,7 @@ const {
 } = users
 
 
-export type RegistrationProps = {
+type RegistrationProps = {
   createUser: Function
   error: Object,
   loading: boolean

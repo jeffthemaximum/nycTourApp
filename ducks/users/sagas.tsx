@@ -38,9 +38,24 @@ function * fetchUser () {
   }
 }
 
+function * loginUser (action) {
+  const { email, password } = action
+  const response = yield call(userApi.loginUser, email, password)
+  const { data: user, error } = response
+  if (user) {
+    const { jwt } = user
+    yield call(clientStorageService.set, constants.JWT, jwt)
+    const deserializedUser = userSerializer.deserialize(user)
+    yield put({ type: userActionTypes.LOGIN_SUCCESS, user: deserializedUser })
+  } else {
+    yield put({ type: userActionTypes.LOGIN_ERROR, error })
+  }
+}
+
 const watchers = [
   takeLatest(userActionTypes.CREATE, createUser),
-  takeLatest(userActionTypes.FETCH, fetchUser)
+  takeLatest(userActionTypes.FETCH, fetchUser),
+  takeLatest(userActionTypes.LOGIN, loginUser)
 ]
 
 export { watchers }
